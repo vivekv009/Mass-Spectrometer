@@ -1,0 +1,12 @@
+tmp/*
+coverage/*
+log/*
+public/assets/*
+public/files/*
+public/uploads/*
+config/database.yml
+db/*.sqlite3
+.DS_Store
+public/sequence_library/*
+.idea
+vendor/cache/*

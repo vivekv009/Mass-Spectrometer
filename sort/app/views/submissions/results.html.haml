@@ -1,0 +1,53 @@
+-content_for :pageheader, "Result History"
+-content_for :helpcontent, "All previous results from queries will appear on this page. It will list the input file, the parameters you set and the results file. You can also download/export resutls form this section."
+-content_for :helptitle, "Result History (i)"
+-content_for :headButtons do
+  .span5.offset5
+    %p.right
+      = link_to 'New Submission »', new_submission_path, :class => "btn primary"
+  .clearfix
+/= render :template => 'layouts/messages'
+= simple_form_for :filterParams do |f|
+  .inputs.form-stacked
+    .group
+      %label Date 
+      - btn_labelled_radio(:filterParams, 'time', [["Week", "last_week"], ["Month", "last_month"], ["Year", "last_year"], ["All Time", '']])
+
+    .group
+      %label User 
+      - btn_labelled_radio(:filterParams, 'user', [["Me", current_user.id], ["Everyone", ""]])
+
+    .group
+      %label Status
+      - btn_labelled_radio(:filterParams, 'status', [["Any", 'cfs'], ["Completed", "c"], ["Failed", 'f'], ["Cancelled", 's']])
+
+    .clearfix
+    = f.button :submit, {:value=>"Filter Results", :class=>"btn btn-large primary"}
+%table.bordered-table.zebra-striped
+  %thead
+    %tr
+      /%td ID
+      %td Title
+      %td User
+      %td Status
+      %td Date
+      /%td Comment
+      %td
+      %td
+    
+  %tbody
+  - @submissions.each do |submission|
+    %tr
+      /%td= submission.id
+      %td= submission.title
+      %td= submission.get_user
+      %td
+        %a{:href => "#{submission_path submission}"}
+          .alert-message{:class => "#{submission.get_status_css()}"}= submission.get_status() 
+      %td= time_ago_in_words(submission.updated_at) << " ago"
+      /%td N/A
+      %td= link_to 'Show', submission, :class => "btn success", :id => "Show_#{submission.id}"
+      %td= link_to 'Destroy', submission, :class => "btn error",:id => "destroy_#{submission.id}", :confirm => 'Are you sure?', :method => :delete if submission.user_can_delete current_user
+
+
+

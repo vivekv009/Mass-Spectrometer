@@ -1,0 +1,10 @@
+-content_for :pageheader, "Job Finished"
+=content_for :pagecontent do
+  = "Hi #{@submission.user.name}," 
+  %p
+  = "Your job has finished and can be viewed here:"
+  = link_to(@submission.title, submission_url(@submission))
+  %p
+    = "Output Message:"
+    = @omssa_message
+=content_for :links, ""

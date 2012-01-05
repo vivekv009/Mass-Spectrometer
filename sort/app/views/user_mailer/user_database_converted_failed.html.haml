@@ -1,0 +1,7 @@
+-content_for :pageheader, "Your FASTA database failed"
+-content_for :pagecontent do 
+	= "Hi Hi #{@database_version.database.user.name}," 
+	%p
+	= "During the processing of the database an error occured:"
+	%p 
+	= @error_message

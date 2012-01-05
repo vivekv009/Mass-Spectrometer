@@ -1,0 +1,58 @@
+#!/usr/bin/env ruby
+
+#optparse doesn't work because Omssac takes a command such as -ox. Whereas opt
+#parse requires --ox
+require 'optparse'
+
+options = {}
+puts Time.now().to_s 
+
+if ARGV.member?('-h')
+  puts "HELP MESSAGE"
+  puts "Call OMSSA CL with -ox and an output path name"
+  puts "Delay is related to..."
+  exit
+end
+
+argedOpts = ['-ox', '-mm', '-te']
+for arg in ARGV
+  if argedOpts.member?(arg)
+    options[arg] = ARGV[ARGV.find_index(arg)+1]
+  end
+end
+puts options
+content = "This is a mock output file created by a sample OMSSA script\n"
+content << "It's arguments were " + ARGV.to_s + "\n"
+content << "It was created on " + Time.now().to_s + "\n"
+
+# File.open('/Users/markdessain/Documents/Genesys_Projects/2011-psm/delayed_job/public/files/submission/result/output.txt', 'w') { |f| f.write(content) }
+
+
+if options.has_key?('-mm')
+  puts "sleeping"
+  sleep(options['-mm'].to_f)
+end
+
+
+
+if options.has_key?('-ox')
+  #Write File 
+  dirname = File.dirname(options['-ox'])
+  Dir.mkdir(dirname) if not File.directory?(dirname)
+  File.open(options['-ox'], 'w') { |f| f.write(content) }
+  puts "FILE WRITTEN to: " << options['-ox']
+end
+puts "DONE"
+
+
+if options.has_key?('-te')
+  # if options['-v'] != 0
+  raise RuntimeError, 'An Exception got called!'
+  # end
+end
+
+
+    # raise RuntimeError, 'Message goes here outside'
+
+exit
+puts "After"

@@ -1,0 +1,10 @@
+- content_for :pageheader, 'New submission'
+- content_for :helpcontent, "Add a new query into the system"
+- content_for :helptitle, "New Query (i)"
+/%a.btn.info{"data-content" => "Add a new query into the system", :href => "#", :rel => "popover", :title => "New Query (i)"} ?
+.clearfix
+
+/= DatabaseVersion.remove_db
+/ New Query table
+= render 'form'
+/ Example row of columns

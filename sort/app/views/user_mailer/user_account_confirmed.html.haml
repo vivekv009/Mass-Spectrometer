@@ -1,0 +1,8 @@
+-content_for :pageheader, "Your account has been confirmed"
+=content_for :pagecontent do 
+ ="Hi #{@last_user.name},"
+ %p
+ ="Your OMSSA account has been confirmed!"
+=content_for :links do 
+ ="You can access OMSSA at"
+ =link_to("Web","http://www.google.com")

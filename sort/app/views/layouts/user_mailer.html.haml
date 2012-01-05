@@ -1,0 +1,17 @@
+!!!
+%html{:lang => "en"}
+  %head
+  %body{:style => "margin:0px; background-color:#EEEEEE; color: #333;"} 
+    .topbar{:style => "background-color:#222; color:#FFF; font-size:20px;font_family:'Helvetica Neue',Helvetica,Arial,sans-serif;" }
+      .topbar-inner
+        .container
+          = link_to "@ OMSSA", :root, {:class => 'brand', :style => "color:#FFF; text-decoration:none; padding:10px 20px 16px; "}
+    .container{:width => "90%", :style => "padding:0px 40px 10px;" }
+      .content{:style => "background-color:#FFF; text-indent:5px;"}
+        .page-header{:style => "background-color:#F5F5F5; border-bottom:1px solid #DDD; border-top:1px solid #DDD; ", :width => "100%"}
+          %h2= yield :pageheader 
+        %h3= yield :pagecontent
+        %h3= yield :links
+        = yield
+      %footer{:style => "text-align:center;"}
+        %p © Genesys Solutions 2011

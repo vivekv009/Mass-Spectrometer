@@ -1,0 +1,7 @@
+#!/bin/bash
+[ ! -e 'config/database.yml' ] && cp config/database_sample.yml config/database.yml
+[ "$(gem list bundler -i)" == 'false' ] && gem install bundler
+bundle $1
+[ `find db -iname *.sqlite3 | wc -l` -eq 0 ] && bundle exec rake db:create
+bundle exec rake db:migrate
+bundle exec rake db:test:prepare

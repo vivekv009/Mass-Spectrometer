@@ -1,0 +1,40 @@
+- content_for :pageheader, "Current Job Queue"
+- content_for :helpcontent, "The system can only dead with a fixed number of requests simultaniously, below is a list of all the jobs which are waiting to be completed. They will be executed in order."
+- content_for :helptitle, "Current Jobs (i)"
+
+- content_for :headButtons do
+  .span5.offset5
+    %p.right
+      = link_to 'New Submission »', new_submission_path, :class => "btn primary"
+  .clearfix
+    / row
+  / page-header
+  / Jobs table
+
+%table.bordered-table.zebra-striped
+  %thead
+    %tr
+      %td ID
+      %td User
+      %td Status
+      %td Date
+      %td Title
+      /%td Comment
+      %td
+      %td
+  - @submissions.each do |submission|
+    %tr
+      %td= submission.id
+      %td= submission.get_user
+      %td
+        %a{:href => "#{submission_path submission}"}
+          .alert-message{:class => "#{submission.get_status_css()}"}= submission.get_status()
+      %td= time_ago_in_words(submission.created_at)
+      %td= submission.title
+      /%td N/A
+      %td= link_to 'Show', submission, :class => "btn success"
+      %td
+        = link_to 'Cancel', submission_cancel_path(submission.id), :class => "btn error",:id => "cancel_#{submission.id}", :method => :delete if submission.user_can_delete current_user
+  %tbody
+/ Example row of columns
+/ Content //

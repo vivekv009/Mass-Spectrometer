@@ -1,0 +1,9 @@
+-content_for :pageheader, "You have been assigned an account"
+=content_for :pagecontent,"Hi #{@last_user.name},"
+=content_for :links do
+ = "Username: #{@last_user.username}"
+ %p
+ = "Password: #{@password}"
+ %p
+ = "Please access OMSSA at:" 
+ =link_to("OMSSA","http://www.google.com")

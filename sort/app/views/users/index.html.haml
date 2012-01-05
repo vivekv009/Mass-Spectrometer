@@ -1,0 +1,103 @@
+- content_for :pageheader, "User Accounts"
+- content_for :helpcontent, "Users can register an account, but will not be allowed to login until their account has been approved"
+- content_for :helptitle, "User Accounts (i)"
+- content_for :headButtons do
+  = link_to "Create new user", new_user_path, :class => "btn primary"
+  / row
+/ page-header
+= render :template => 'layouts/messages'
+/ Results table
+%ul.tabs{"data-tabs" => "tabs"}
+  %li.active
+    %a{:href => "#users_active"} Active Users
+  %li
+    %a{:href => "#users_admin"} Administrators
+  %li
+    %a{:href => "#users_disabled"} Disabled Accounts
+  %li
+    %a{:href => "#users_inactive"} Inactive Accounts
+/ Tabs Header
+#my-tab-content.tab-content
+  #users_active.active.tab-pane
+    %p.alert-message.info List of Active Users
+    %table.bordered-table.zebra-striped
+      %thead
+        %tr
+          %td Full Name
+          %td Username
+          %td Email
+          %td Options
+          
+      %tbody
+      - @users_active.each do |user|
+        %tr
+          %td= user.name
+          %td= user.username
+          %td= user.email
+          %td
+            = link_to 'Edit', edit_user_path(user), :class => 'btn primary'
+            = link_to 'Disable', users_disable_path(user), :confirm => 'Are you sure?', :class => 'btn error'
+    / Approved Users Results
+    
+  #users_admin.tab-pane
+    %p.alert-message.warn List of administrator accounts
+    %table.bordered-table.zebra-striped
+      %thead
+        %tr
+          %td Full Name
+          %td Username
+          %td Email
+          %td Options
+          
+      %tbody
+      - @users_admin.each do |user|
+        %tr
+          %td= user.name
+          %td= user.username
+          %td= user.email
+          %td
+            = link_to 'Edit', edit_user_path(user), :class => 'btn primary'
+    / Users Admin
+  
+  #users_disabled.tab-pane
+    %p.alert-message.error List of Disabled accounts
+    %table.bordered-table.zebra-striped
+      %thead
+        %tr
+          %td Full Name
+          %td Username
+          %td Email
+          %td Options
+          
+      %tbody
+      - @users_disabled.each do |user|
+        %tr
+          %td= user.name
+          %td= user.username
+          %td= user.email
+          %td
+            = link_to 'Enable', users_enable_path(user), :class => 'btn success' 
+    / Inactive Accounts
+    
+  #users_inactive.tab-pane
+    %p.alert-message.error List of Inactive accounts
+    %table.bordered-table.zebra-striped
+      %thead
+        %tr
+          %td Full Name
+          %td Username
+          %td Email
+          %td Options
+          
+      %tbody
+      - @users_inactive.each do |user|
+        %tr
+          %td= user.name
+          %td= user.username
+          %td= user.email
+          %td
+            = link_to 'Activate', users_approve_path(user), :class => 'btn success' 
+            = link_to 'Delete', user, :confirm => 'Are you sure?', :method => :delete, :class => 'btn error'
+    / Inactive Accounts
+/ Example row of columns
+/ Content //

@@ -1,0 +1,5 @@
+-content_for :pageheader, "Your FASTA database has been converted"
+-content_for :pagecontent do 
+	= "Hi #{@database_version.database.user.name}," 
+	%p
+	= "Your Fasta database has been converted! You can now start using it to carry out protein search"

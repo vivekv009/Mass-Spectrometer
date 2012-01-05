@@ -1,0 +1,3 @@
+This is a mock output file created by a sample OMSSA script
+It's arguments were ["-w", "-to", "5.2", "-e", "1", "-zl", "2", "-zh", "5", "-zt", "6", "-v", "8", "-hl", "4", "-he", "11.0", "-tez", "1", "-zcc", "2", "-cp", "0", "-mf", "0,0", "-mv", "0,0", "-mm", "1", "-tom", "0", "-tem", "0", "-i", "0,2", "-d", "/home/genesys/2011-psm/sort/public/sequence_library/1/valid_database2.fasta", "/home/genesys/2011-psm/sort/public/files/submission/1/file/valid_submission.txt", "-ox", "/home/genesys/2011-psm/sort/public/files/submission/1/valid_submission.omx"]
+It was created on 2012-01-14 16:26:41 +0000

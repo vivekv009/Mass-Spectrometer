@@ -1,0 +1,112 @@
+- content_for :pageheader, 'Show Submission'
+- content_for :headButtons do 
+  .span5.offset5
+    %p.right
+      = link_to 'New Submission', new_submission_path, :class => "btn primary"
+      - if (@submission.status == 'c')
+        = link_to "Export", :action => :download_results
+        /= link_to 'Export', Rails.root.join("public/files/submission/#{@submission.id.to_s}/#{@submission.file.file.filename.to_s}"), :class => "btn info"
+      - elsif (@submission.status == 'p' or @submission.status == 'w')
+        = link_to 'Edit', new_submission_path, :class => "btn info"
+      = link_to 'Delete', new_submission_path, :class => "btn danger"
+    .clearfix
+
+%p
+  %b Status:
+  = @submission.get_status()
+
+%p
+  %b Title:
+  = @submission.title
+%p	  
+  %b User / Owner
+  = @submission.get_user
+
+%p	  
+  %b File location:
+  = @submission.file.path
+
+%p
+  %b Database:
+  = @submission.database_version.to_s
+  - if not @submission.database_version.database.user.nil?
+    by
+    =@submission.database_version.database.user.name
+
+- if not @submission.error_message.nil?
+  %p
+    %b Error Message:
+    = @submission.error_message
+  
+%p
+  %b Omssa Command Line:
+  = @submission.make_commandline()
+
+.well
+  %b Additional Parameters
+  %ul
+    %li
+      %b Enzyme
+      -if not @submission.enzyme.nil?
+        = @submission.enzyme.name
+    %li
+      %b Maximum Missed Cleavages
+      = @submission.max_missed_cleavages
+    %li
+      %b Hitlist max length
+      = @submission.hitlist_max_length
+    %li
+      %b E-Value Cutoff
+      = @submission.e_value_cutoff
+    %li
+      %b Fixed Mods
+      - fixArr = []
+      - @submission.fixed_protein_mods.each do |m| fixArr << m.name end
+      = fixArr.join(", ")
+
+    %li
+      %b Variable Mods
+      - varArr = []
+      - @submission.fixed_protein_mods.each do |m| varArr << m.name end
+      = varArr.join(", ")
+    %li
+      %b Max Var Mods
+      = @submission.max_var_mods
+    %li
+      %b Precursor Mass Tolerance
+      = @submission.precursor_mass_tolerance
+    %li
+      %b Product Mass Tolerance
+      = @submission.product_mass_tolerance
+    %li
+      %b Precursor Mass Search Type
+      = @submission.precursor_mass_search_type
+    %li
+      %b Product Mass Search Type
+      = @submission.product_mass_search_type
+    %li
+      %b Lower Bound of precursor 
+      = @submission.l_bound_precursor
+    %li
+      %b Upper Bound of precursor 
+      = @submission.u_bound_precursor
+    %li
+      %b Minimum Charge
+      = @submission.min_charge
+    %li
+      %b Fraction of Product Peaks
+      = @submission.fract_prod_peaks
+    %li
+      %b Peak Intensity Cutoff
+      = @submission.peak_cutoff
+    %li
+      %b Number of Intensity Peaks
+      = @submission.ints_peaks
+    %li
+      %b Ion 1
+      -if not @submission.ion_1.nil?
+        = @submission.ion_1.name
+    %li
+      %b Ion 2
+      -if not @submission.ion_2.nil?
+        = @submission.ion_2.name

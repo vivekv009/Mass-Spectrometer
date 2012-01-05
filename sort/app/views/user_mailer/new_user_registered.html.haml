@@ -1,0 +1,6 @@
+-content_for :pageheader, "New User Registered!"
+=content_for :pagecontent do
+ = "Dear admins,"
+ %p
+ = "A new user has registered, click the link to"
+ = link_to("confirm him/her" , users_url(@last_user))

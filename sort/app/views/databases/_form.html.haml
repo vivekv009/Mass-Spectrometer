@@ -1,0 +1,35 @@
+- if current_page?(:controller => 'databases', :action => 'new') || current_page?(:controller => 'databases', :action => 'edit')  
+  = simple_form_for(@database) do |f|
+    - if f.error_notification
+      .alert-message.error
+        = f.error_notification
+        = f.full_error :token
+    %fieldset
+      .clearfix
+        %label{:for => "database_title"} Title
+        .input
+          = f.input_field :title, :required => true, :autofocus => true
+          .form_error
+            = f.error :title, :id => 'title_error'
+      / /clearfix
+    %fieldset
+      .clearfix
+        %label{:for => "database_file"} Database File
+        .input.row
+          %button{ :id => "db-browse", :class => "btn info span3" }
+            Browse
+          #filelist.alert-message.block-message.margin-top
+            Please Select a file
+      / /clearfix
+    .actions
+      = f.button :submit, {:class => 'btn primary'}
+
+- if !@database.new_record? && current_page?(:controller => 'databases', :action => 'editDatabaseName')
+  = simple_form_for(@database, :url => url_for(:action => 'updateDatabaseName', :controller => 'databases')) do |f|
+    - if f.error_notification 
+      .alert-message.error
+        = f.error_notification
+    .inputs
+      = f.input :title
+    .actions
+      = f.button :submit, {:class => 'btn primary', :value => 'Edit Database'}

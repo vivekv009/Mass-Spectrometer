@@ -1,0 +1,113 @@
+= simple_form_for(@submission) do |f|
+  - if f.error_notification
+    .alert-message.error
+      = f.error_notification
+
+  .inputs.form-stacked
+    %table.bordered-table
+      %tr
+        %td{:colspan => 2}
+          = f.input :title
+      %tr
+        %td
+          = error_file_field(@submission, :file, f)
+          /= f.file_field :file, :class => 'xlarge'
+          /= f.error :file
+          /= f.full_error :token
+        %td
+          = f.input :merge, :label => "Merge Zip Submission?" do 
+            = check_box_tag 'merge_files'
+      %tr
+        %td
+          = f.association :enzyme 
+        %td
+      %tr 
+        %td
+          %div.input.select.clearfix 
+            = f.label "Database"
+            /= f.collection_select :database, Database.where("enabled=?", true), :id, :title, :prompt => "select a database"
+       
+            /= f.association :database_version, :prompt  => "select a database version"
+            #submission_database
+              -if !@users.nil?
+                = @users.each do |user|
+                  %ul{:class => "database_user"}
+                    %li
+                      = link_to user.name, #
+                      = user.databases.each do |database|
+                        %ul{:class => "database_id"}
+                          %li{:id => database.id} 
+                            = link_to database.title + " ("+database.database_versions.length.to_s + " Versions  )", # 
+                            = database.database_versions.each do |version|
+                              %ul{:class => "database_versions"}
+                                %li{:id => version.id}
+                                  = link_to version.created_at
+             
+                        
+             
+          %td     
+            %div.hide
+              %input{:type => "text", :id => "submission_database_version", :name => "submission[database_version_id]"}
+            %div
+              = f.input :output_filetype, :collection => [["OMX - XML Format", 1], ["CSV - Spread sheet",2]], :include_blank => false, :label => "Output File"
+            
+            
+              
+              
+            
+      %tr
+        %td
+          = f.input :max_missed_cleavages, :collection => 0..3, :label => "Maximum missed cleavages"
+        %td
+      %tr
+        %td
+          = f.input :hitlist_max_length, :collection => [10, 25, 50], :label => "Hitlist max length"
+        %td
+          = f.input :e_value_cutoff, :collection => [50, 25, 10, 1, 0.1, 0.01, 0.001, 0.0001], :label => "E-value cutoff"
+      %tr
+        %td
+          = f.association :fixed_protein_mods, :label => "Fixed Mods"
+        %td
+          = f.association :variable_protein_mods, :label => "Variable Mods"
+      %tr
+        %td{:colspan => 2}
+          = f.input :max_var_mods, :collection => 0..64, :label => "Maximum variable mod combinations searched per peptide"
+      
+      %tr
+        %td
+          = f.input :precursor_mass_tolerance
+        %td
+          = f.input :product_mass_tolerance
+      %tr
+        %td
+          = f.association :precursor_mass_search_t, :label => "Precursor mass search type"
+        %td
+          = f.association :product_mass_search_t, :label => "Product mass serch type"
+      %tr
+        %td
+          = f.input :l_bound_precursor, :collection => 0..9, :label => "Lower bound of precursor charge"
+        %td
+          = f.input :u_bound_precursor, :collection => 0..9, :label => "Upper bound of precursor charge"
+      %tr
+        %td{:colspan => 2}
+          = f.input :min_charge, :collection => 0..9, :label => "Minimum charge to start using multiply charged products"
+      %tr
+        %td{:colspan => 2}
+          = f.input :fract_prod_peaks, :label => "Fraction of product peaks below precursor to determine +1 precursor"
+      %tr
+        %td
+          = f.input :peak_cutoff, :label => "Peak intensity cutoff"
+          .help-inline.right (fraction of most intense)
+        %td
+          = f.input :ints_peaks, :collection => 0..20, :label => "Number of top intensity peaks in first pass"
+      %tr
+        %td
+          = f.association :ion_1, :label => "Ions to search 1"
+        %td
+          = f.association :ion_2, :label => "Ions to search 2"
+      %tr
+        %td
+          = f.input :email, :label => "Email option" 
+
+  .actions
+    = f.button :submit, {:class => 'btn primary'}

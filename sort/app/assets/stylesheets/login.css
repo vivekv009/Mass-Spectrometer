@@ -1,0 +1,9 @@
+.container {
+  width: 640px;
+}
+
+.form_error {
+  margin-top: 5px;
+  text-indent: 5px;
+  color: #FF0000;
+}

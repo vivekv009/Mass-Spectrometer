@@ -1,0 +1,69 @@
+- content_for :pageheader, "Managing Databases"
+- if @admin
+  -content_for :helpcontent, "All Databases in the system are shown in this page, clicking show will take you to the page where you can list all the versions of a particular database. Editing a database is used to upload a new version."
+- if ! @admin 
+  -content_for :helpcontent, "All Databases uploaded by "+User.current.name+" are shown in this page."
+-content_for :helptitle, "Managing Databases (i)"
+- if @admin
+  %ul.tabs{"data-tabs" => "tabs"}
+    %li.active
+      %a{:href => "#active"} Active Databases
+    %li
+      %a{:href => "#disabled"} Disabled Database
+- content_for :headButtons do
+  .span5.offset5
+    %p.right
+      = link_to 'New Database', new_database_path, :class => "btn primary"
+  .clearfix
+
+/ Tabs Header
+- if @databases.count == 0 
+  %p.alert-message.warning There are currently no databases in the system
+#my-tab-content.tab-content
+  - if @databases.count > 0	
+    #active.active.tab-pane
+      - if Database.where("enabled=?",true).count == 0
+        %p.alert-message.warning There are currently no active databases in the system
+      - if Database.where("enabled=?",true).count >0
+        %table.bordered-table.zebra-striped
+          %thead
+            %tr
+              %th Database name
+              %th Show 
+              %th Update
+              %th Edit
+              %th Disable 
+          %tbody
+          - @databases.each do |database|
+            - if database.enabled ==true 
+              %tr
+                %td= database.title
+                %td= link_to 'Show', database, :class => "btn success"
+                %td= link_to 'Update', edit_database_path(database), :class => "btn info"
+                %td= link_to 'Edit', editName_database_path(database), :class => "btn"
+                %td= link_to 'disable', databases_disableall_path(database), :class => "btn error"
+
+    #disabled.disable.tab-pane
+      - if Database.where("enabled=?",false).count == 0
+        %p.alert-message.warning There are currently no disabled databases in the system
+      - if Database.where("enabled=?",false).count >0 
+        %table.bordered-table.zebra-striped
+          %thead
+            %tr
+            %th Database name
+            %th Show 
+            %th Update
+            %th Edit
+            %th Enable 
+            %th Delete 
+          %tbody
+          - @databases.each do |database|
+            - if database.enabled == false 
+              %tr
+                %td= database.title
+                %td= link_to 'Show', database, :class => "btn success"
+                %td= link_to 'Update', edit_database_path(database), :class => "btn info"
+                %td= link_to 'Edit', editName_database_path(database), :class => "btn"
+                %td= link_to 'enable', databases_enableall_path(database), :class => "btn primary"
+                %td= link_to 'destroy',databases_destroyall_path(database), :class => "btn error"
+     

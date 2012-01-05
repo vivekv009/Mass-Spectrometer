@@ -1,0 +1,81 @@
+- content_for :pageheader, "Database Versions"
+- if @admin
+  -content_for :helpcontent, "This page shows the versions of the "+@database.title+ " database. You can disable the versions and/or edit/disable/destroy the whole database."
+- if ! @admin
+  -content_for :helpcontent, "This page shows the versions of the "+@database.title+ " database. You can disable the versions and/or edit/disable the whole database."
+-content_for :helptitle, "Managing Databases (i)"
+
+%p#notice= notice
+%p
+  %b Database title:
+  = @database.title
+%p
+  %b Added By:
+  = @database.user.name
+  
+- if @admin
+  %ul.tabs{"data-tabs" => "tabs"}
+    %li.active
+      %a{:href => "#act"} Active Versions
+    %li
+      %a{:href => "#disabled"} Disabled Versions
+
+/ Tabs Header
+- if @database_versions.count == 0 
+  %p.alert-message.warning There are currently no versions
+#my-tab-content.tab-content
+  - if @database_versions.count > 0	
+    #act.active.tab-pane
+      - if DatabaseVersion.where("enabled=? and database_id=?",true, @database.id).count == 0
+        %p.alert-message.info There are currently no active versions in this database
+      - if DatabaseVersion.where("enabled=? and database_id=?",true,@database.id).count > 0
+        %table.bordered-table.zebra-striped
+          %thead
+            %tr
+              %th Database versions
+              %th Status
+              %th Data of creation
+              %th 
+ 
+          %tbody
+          - @database_versions.each do |databaseversion|
+            - if databaseversion.enabled ==true 
+              %tr{:class => (database_state_to_css databaseversion)}
+                %td
+                  = databaseversion.database_title
+                %td
+                  = link_to (database_alert_message databaseversion), database_version_show_path(databaseversion)
+                  /- dclass = (database_state_to_css(databaseversion)
+                  /%p{:class => "alert-message #{database_state_to_css(databaseversion)}"} 
+                  /= database_state_to_css(databaseversion).gsub("info ", "").capitalize
+                %td= databaseversion.created_at
+                %td= link_to 'show', database_version_show_path(databaseversion), :id => "show_#{databaseversion.id}"
+                %td= link_to 'disable', database_versions_disable_path(databaseversion)
+ 
+    #disabled.disabled.tab-pane
+      - if DatabaseVersion.where("enabled=? and database_id=?",false,@database.id).count == 0
+        %p.alert-message.warning There are currently no disabled versions in this database
+      - if DatabaseVersion.where("enabled=? and database_id=?",false, @database.id).count > 0
+        %table.bordered-table.zebra-striped
+          %thead
+            %tr
+            %th Database versions
+            %th Data of creation
+            %th Database status
+            %th Delete version
+
+          %tbody
+          - @database_versions.each do |databaseversion|
+            - if databaseversion.enabled==false 
+              %tr
+                %td= databaseversion.database_title
+                %td= databaseversion.created_at
+                %td= link_to 'enable', database_versions_enable_path(databaseversion)
+                %td= link_to 'destroy',database_versions_destroy_path(databaseversion)
+
+  /= @database.make_blastdb
+= link_to 'Update', edit_database_path(@database)
+\|
+= link_to 'Edit', editName_database_path
+\|
+= link_to 'Back', databases_path

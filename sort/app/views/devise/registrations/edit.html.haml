@@ -1,0 +1,61 @@
+-content_for :pageheader, "My Account"
+-content_for :helpcontent, "This section allows you to edit basic account information, optionally you can also terminate your account"
+-content_for :helptitle, "My Account (i)"
+-content_for :headButtons do
+  = link_to 'Back', :back , :class => "btn primary"
+  .clearfix
+/ Accounts form
+= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
+  - if f.error_notification
+    .alert-message.error
+      = f.error_notification
+      = f.full_error :token
+  %fieldset
+    .clearfix
+      %label{:for => "name"} Full Name
+      .input
+        = f.input_field :name, :required => true, :autofocus => true
+        .form_error
+          = f.error :name, :id => 'user_name_error'
+    / /clearfix
+    .clearfix
+      %label{:for => "username"} Username
+      .input
+        = f.input_field :username, :required => true
+        .form_error
+          = f.error :username, :id => 'user_username_error'
+    / /clearfix
+    .clearfix
+      %label{:for => "email"} Email
+      .input
+        = f.input_field :email, :required => true
+        .form_error
+          = f.error :email, :id => 'user_email_error'
+    / /clearfix
+    .clearfix
+      %label{:for => "password"} Password
+      .input
+        = f.input_field :password
+        .form_error
+          = f.error :password, :id => 'user_password_error'
+    / /clearfix
+    .clearfix
+      %label{:for => "password_confirmation"} Password confirmation
+      .input
+        = f.input_field :password_confirmation
+        .form_error
+          = f.error :password_confirmation, :id => 'user_password_confirmation_error'
+    / /clearfix
+    .clearfix
+      %label{:for => "current_password"} Current Password
+      .input
+        = f.input_field :current_password, :required => true
+        .form_error
+          = f.error :current_password, :id => 'user_current_password_error'
+    / /clearfix
+    .actions
+      %input.btn.primary{:type => "submit", :value => "Save"}
+
+  %tbody
+/ Example row of columns
+/ Content //

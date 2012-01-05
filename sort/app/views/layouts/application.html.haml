@@ -1,0 +1,72 @@
+!!!
+%html{:lang => "en"}
+  %head
+    %meta{:charset => "utf-8"}
+      = stylesheet_link_tag    "application"
+      = stylesheet_link_tag    params[:controller]
+      = stylesheet_link_tag    "themes/default/style"
+      = javascript_include_tag "application"
+      = javascript_include_tag "jquery.jstree.js"
+      = javascript_include_tag "jquery.hotkey.js"
+      = javascript_include_tag "jquery.cookie.js"
+      = csrf_meta_tags
+      - @head = yield :pageheader
+      %title= @head << " @OMSSA"
+      %meta{:content => "", :name => "description"}
+      %meta{:content => "Genesys Solutions", :name => "author"}
+      %link{:href => "/favicon.ico", :rel => "icon", :type => "image/x-icon"}
+      %link{:href => "/favicon.ico", :rel => "shortcut icon", :type => "image/x-icon"}
+        / Le HTML5 shim, for IE6-8 support of HTML elements
+        /[if lt IE 9]
+          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+
+  %body
+    / TOP Bar
+    .topbar
+      .topbar-inner
+        .container
+          = link_to "@ OMSSA", :root, :class => 'brand'
+          %ul.nav
+            %li{:class => (@highlight_queue ? "active" : "")}
+              = link_to 'Job Queue', submission_queue_path
+            %li{:class => (@highlight_new_submission ? "active" : "")}
+              = link_to 'New Submission', new_submission_path
+            %li{:class => (@highlight_results ? "active" : "")}
+              = link_to 'Result History', submission_results_path
+            %li
+              = link_to 'Manage Database', databases_path
+            - if @admin
+              %li.dropdown{:class => (@highlight_admin ? "active" : "")}
+                %a.dropdown-toggle{:href => "#"} Admin
+                %ul.dropdown-menu
+                  %li
+                    = link_to 'Manage Users', users_manage_path
+            %li
+              = link_to 'Help', help_path
+          %ul.nav.secondary-nav
+            %li.dropdown
+              %a.dropdown-toggle{:href => "#"} 
+                = @user_name
+              %ul.dropdown-menu
+                %li
+                  = link_to 'My Account', edit_user_registration_path
+                %li
+                  = link_to('Logout', destroy_user_session_path)
+                  
+    / Topbar end
+    .container
+      .content
+        .page-header
+          .row
+            .span6
+              %h1= yield :pageheader
+              - @con = yield :helpcontent
+              - @tit = yield :helptitle
+              - if @con.length > 0 and @tit.length > 0
+                %a.btn.info{"data-content" => @con, :href => "#", :rel => "popover", :title => @tit } ?
+            %p.right= yield :headButtons
+        = render :template => 'layouts/messages'
+        = yield
+      %footer
+        %p © Genesys Solutions 2011
+    / Container   //

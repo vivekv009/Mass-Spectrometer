@@ -1,0 +1,93 @@
+-content_for :pageheader, "Help!"
+%ul.tabs{"data-tabs" => "tabs"}
+  %li.active
+    %a{:href => "#managingDatabases"} Managing Database Guide
+  %li
+    %a{:href => "#jobQueue"} Job Queue Guide
+  %li
+    %a{:href => "#newSubmission"} New Submission Guide
+  %li
+    %a{:href => "#resultsHistory"} Results History Guide
+
+
+/ Tabs Header
+#user_guide.tab-content
+  #managingDatabases.active.tab-content
+  
+    %h1.color Managing databases
+    %p The main page for managing a database includes a tabulated list of all databases which the user uploaded. Along with each database, a number of actions are supplied to allow the user to show the list of versions the database contains, update a database with a new version,  edit the name of the database and disable a database. 
+
+
+
+    %h3.color Databases
+
+    %div#database-view.admin
+      %div.pointers
+        %a.pointer.point-1.btn.info{'data-content' => 'Clicking “New Database” will take the user to the page where a new database is created. ', :rel => 'popover', :href => '#', :title => 'New Database'} 1
+        %a.pointer.point-2.btn.info{'data-content' => 'This action allows the user to display the versions of a given database, where information like the database title, database owner’s name are also displayed. It also lets the user to disable a specific version.', :rel => 'popover', :href => '#', :title => 'Show Database'} 2
+        %a.pointer.point-3.btn.info{'data-content' => 'The aim of updating a database is to upload a new version of the existing  FASTA file of a particular database, in which earlier versions are also maintained in the system. This will allow the users to search using different  versions of the database based on their search specification. ', :rel => 'popover', :href => '#', :title => 'Update Database'} 3
+        %a.pointer.point-4.btn.info{'data-content' => 'Editing a database is performed when the user wishes to edit the database name. ', :rel => 'popover', :href => '#', :title => 'Edit Database'} 4
+        %a.pointer.point-5.btn.info{'data-content' => 'In order for the users to delete their own databases, s/he will have to disable the database first, which removes the database and its versions from the submission page. Nonetheless, the actual deletion is performed by the Admin who approves the removal of the database.', :rel => 'popover', :href => '#', :title => 'Disable Database'} 5
+        %a.pointer.point-14.btn.info{'data-content' => 'Action for disabled databases', :rel => 'popover', :href => '#', :title => 'Admin'} 14
+            
+    
+
+    %h3.color 1) Upload a New Database
+
+    %div#database-upload
+      %div.pointers
+        %a.pointer.point-6.btn.info{'data-content' => 'The user will have to specify a name for the database as well as uploading a FASTA file. The upload request of the database will then be queued and the user will have to wait for a while until the database is completely uploaded.', :rel => 'popover', :href => '#', :title => 'Set Title and File'} 6
+        %a.pointer.point-7.btn.info{'data-content' => 'Upon successful upload, the user will receive an email to confirm that the database was uploaded successfully. Moreover, the database will be visible under the active databases tab and will also be available for the other users in the system in the submission page to use it for carrying out a searches.', :rel => 'popover', :href => '#', :title => 'Submit'} 7
+
+
+    %h3.color 2) Database Versions
+
+    %div#database-versions.admin
+      %div.pointers
+        %a.pointer.point-8.btn.info{'data-content' => 'Once a database has been uploaded, a one time process will take place, and until this is completed the database can\'t be used.', :rel => 'popover', :href => '#', :title => 'Uploading In Progress'} 8
+        %a.pointer.point-9.btn.info{'data-content' => 'A user can disable their own database version under a given database. This is an initial step of preparing the version for deletion, which has is been carried out by an admin.  ', :rel => 'popover', :href => '#', :title => 'Disable Database'} 9
+        %a.pointer.point-15.btn.info{'data-content' => 'Admin page', :rel => 'popover', :href => '#', :title => 'Admin'} 15
+
+
+    %h3.color 3) Update a Database
+
+    %div#database-update
+      %div.pointers
+        %a.pointer.point-10.btn.info{'data-content' => 'The user will have to upload a FASTA file.', :rel => 'popover', :href => '#', :title => 'Select New Version'} 10
+        %a.pointer.point-11.btn.info{'data-content' => 'Upon successful upload, the new file will be added to the database as a new version, allowing searches to be made on either version.', :rel => 'popover', :href => '#', :title => 'Submit'} 11
+
+ 
+    %h3.color 4) Edit a Database
+
+    %div#database-edit
+      %div.pointers
+        %a.pointer.point-12.btn.info{'data-content' => 'The user will have to specify a name for the database.', :rel => 'popover', :href => '#', :title => 'Change Title'} 12
+        %a.pointer.point-13.btn.info{'data-content' => 'Upon submission, the database name for all the versions will be replaced.', :rel => 'popover', :href => '#', :title => 'Submit'} 13
+
+
+ 
+    %h3.color 14) Admin Databases
+
+    %div#database-admin
+      %div.pointers
+        %a.pointer.point-16.btn.info{'data-content' => 'Enabling a database is an action offered to the Admin upon rejection of deleting a database. This will keep the database and its versions visible for the user in the submission page. ', :rel => 'popover', :href => '#', :title => 'Enabling a database'} 16
+        %a.pointer.point-17.btn.info{'data-content' => 'This action will remove a database completely from the system. ', :rel => 'popover', :href => '#', :title => 'Destroying a database'} 17
+
+    %h3.color 14) Admin Databases Versions
+
+
+    %div#database-disable-versions
+      %div.pointers
+        %a.pointer.point-18.btn.info{'data-content' => 'This action will re-enable disabled versions of a given database.', :rel => 'popover', :href => '#', :title => 'Enabling a database version'} 18
+        %a.pointer.point-19.btn.info{'data-content' => 'This action will remove the database version completely from the system. ', :rel => 'popover', :href => '#', :title => 'Destroying a database versions'} 19
+
+    
+ 
+    %p end
+
+  #jobQueue.disable.tab-pane
+    = image_tag "coming-soon.jpg"
+  #newSubmission.disable.tab-pane
+    = image_tag "coming-soon.jpg"
+  #resultsHistory.disable.tab-pane
+    = image_tag "coming-soon.jpg"

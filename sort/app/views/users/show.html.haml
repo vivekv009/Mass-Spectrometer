@@ -1,0 +1,62 @@
+.content
+  .page-header
+    .row
+      .span6
+        %h1 Edit User
+        %a.btn.info{"data-content" => "This section allows you to edit a users account information", :href => "#", :rel => "popover", :title => "User Account (i)"} ?
+      .span5.offset5
+        %p.right
+          = link_to 'Back', :back , :class => "btn primary"
+      .clearfix
+    / row
+  / page-header
+  = render :template => 'layouts/messages'
+  / Accounts form
+  = simple_form_for(@user) do |f|
+    - if f.error_notification
+      .alert-message.error
+        = f.error_notification
+        = f.full_error :token
+    %fieldset
+      .clearfix
+        %label{:for => "name"} Full Name
+        .input
+          = f.input_field :name, :required => true, :autofocus => true
+          .form_error
+            = f.error :name, :id => 'user_name_error'
+      / /clearfix
+      .clearfix
+        %label{:for => "username"} Username
+        .input
+          = f.input_field :username, :required => true
+          .form_error
+            = f.error :username, :id => 'user_username_error'
+      / /clearfix
+      .clearfix
+        %label{:for => "email"} Email
+        .input
+          = f.input_field :email, :required => true
+          .form_error
+            = f.error :email, :id => 'user_email_error'
+      / /clearfix
+      .clearfix
+        %label{:for => "password"} Password
+        .input
+          = f.input_field :password, :required => false
+          = f.hint "(optional)"
+          .form_error
+            = f.error :password, :id => 'user_password_error'
+      / /clearfix
+      .clearfix
+        %label{:for => "password_confirmation"} Password confirmation
+        .input
+          = f.input_field :password_confirmation, :required => false
+          .form_error
+            = f.error :password_confirmation, :id => 'user_password_confirmation_error'
+      / /clearfix
+      .actions
+        %input.btn.primary{:type => "submit", :value => "Save"}
+
+    %tbody
+  / Example row of columns
+  / Content //

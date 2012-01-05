@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+require 'optparse'
+options = {}
+start_time = Time.now().to_s
+
+content = "MAKEBLASTDB SAMPLE RUN AT: #{start_time}"
+
+argedOpts = ['-in', '-ex']
+for arg in ARGV
+  if argedOpts.member? arg
+    options[arg] = ARGV[ARGV.find_index(arg)+1]
+  end
+end
+
+if options.has_key?('-ex')
+  raise RuntimeError, "Intended Error"
+end
+
+sleep(5)
+if options.has_key?('-in')
+  dirname = File.dirname(options['-in'])
+  basename = File.basename(options['-in'], File.extname(options['-in']))
+  outputPath = File.join(dirname, basename)
+  puts "WRITing file to:" << outputPath
+  File.open(outputPath, 'w') { |f| f.write(content) }
+  puts "FILE WRITTEN to:" << outputPath
+end
+
+puts Time.now().to_s
+
+puts "DONE"

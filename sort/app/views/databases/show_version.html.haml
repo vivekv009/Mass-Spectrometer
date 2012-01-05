@@ -1,0 +1,27 @@
+- content_for :pageheader, "Database Version"
+/- content_for :helptitle, "
+
+%p
+  %b Title:
+  = @database_version
+%p
+  %b Added By:
+  = @database_version.database.user.name
+
+= database_alert_message @database_version
+- if @database_version.error_message
+  %p
+    %b Error Message:
+    = @database_version.error_message
+
+
+%table.bordered-table
+  %thead
+    %th Date Created
+    %th Last Updated
+  %tbody
+    %tr
+      %td=@database_version.created_at
+      %td=@database_version.updated_at
+
+
